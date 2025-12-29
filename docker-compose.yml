@@ -1,0 +1,43 @@
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    ports:
+      - "5540:5540"
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  php-app:
+    build: ./php
+    ports:
+      - "8080:80"
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  node-ws:
+    build: ./node
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+volumes:
+  redis-data:
+
+networks:
+  app-network:
+    driver: bridge

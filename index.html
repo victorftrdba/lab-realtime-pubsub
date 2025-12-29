@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>IoT Real-time Monitor</h1>
+    <div id="status">Waiting for data...</div>
+    <div id="data-log"></div>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+        const socket = io('http://localhost:3000');
+
+        socket.on('sensor_push', (data) => {
+            document.getElementById('status').innerText = "Live Update Received!";
+            const log = document.createElement('p');
+            log.innerHTML = `<b>${data.sen_code}</b>: ${data.value} at ${data.timestamp}`;
+            document.getElementById('data-log').prepend(log);
+        });
+    </script>
+</body>
+</html>
