@@ -1,38 +1,38 @@
 # CLAUDE.md - lab-realtime-pubsub
 
-## O que é
+## What it is
 
-Lab de padrão Pub/Sub em tempo real para IoT: PHP publica dados de sensores no Redis; Node.js assina e distribui via WebSocket para o browser.
+Real-time Pub/Sub pattern lab for IoT: PHP publishes sensor data to Redis; Node.js subscribes and distributes it via WebSocket to the browser.
 
 ## Stack
 
-- PHP (publisher HTTP, porta 8080)
-- Node.js + Socket.IO (subscriber WebSocket, porta 3000)
-- Redis (message broker Pub/Sub, porta 6379)
-- RedisInsight (monitoramento, porta 5540)
-- Frontend HTML/JS (consumidor WebSocket)
+- PHP (HTTP publisher, port 8080)
+- Node.js + Socket.IO (WebSocket subscriber, port 3000)
+- Redis (Pub/Sub message broker, port 6379)
+- RedisInsight (monitoring, port 5540)
+- HTML/JS frontend (WebSocket consumer)
 - Docker Compose
 
-## Estrutura
+## Structure
 
 ```
-docker-compose.yml   -> Orquestra Redis, RedisInsight, PHP e Node.js
-index.html           -> Frontend que consome WebSocket (Socket.IO)
-php/                 -> Publisher: recebe POST de sensores e publica no Redis
-php/index.php        -> Endpoint HTTP do publisher
-node/                -> Subscriber: assina Redis e emite via Socket.IO
-node/server.js       -> Servidor WebSocket
+docker-compose.yml   -> Orchestrates Redis, RedisInsight, PHP and Node.js
+index.html           -> Frontend that consumes the WebSocket (Socket.IO)
+php/                 -> Publisher: receives sensor POSTs and publishes to Redis
+php/index.php        -> Publisher HTTP endpoint
+node/                -> Subscriber: subscribes to Redis and emits via Socket.IO
+node/server.js       -> WebSocket server
 ```
 
-## Comandos
+## Commands
 
 ```bash
-docker compose up -d     # Subir stack completa
-docker compose down      # Parar stack
+docker compose up -d     # Start the full stack
+docker compose down      # Stop the stack
 ```
 
-## Padrões
+## Patterns
 
-- Fluxo: Sensor → POST PHP → Redis publish → Node.js subscribe → WebSocket → Browser
-- PHP e Node.js são containers independentes; comunicação exclusivamente via Redis
-- Lab educacional: sem autenticação nos endpoints
+- Flow: Sensor → POST PHP → Redis publish → Node.js subscribe → WebSocket → Browser
+- PHP and Node.js are independent containers; communication exclusively via Redis
+- Educational lab: no authentication on the endpoints
